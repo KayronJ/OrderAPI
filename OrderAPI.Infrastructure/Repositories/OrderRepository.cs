@@ -1,0 +1,39 @@
+﻿using OrderAPI.Domain.Entities;
+using OrderAPI.Domain.Enums;
+using OrderAPI.Domain.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace OrderAPI.Infrastructure.Repositories
+{
+    public class OrderRepository : IOrderRepository
+    {
+        public Task AddOccurrenceAsync(Order order)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task AddOrderAsync(Order order)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Order> GetAllAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Order> GetByIdAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task UpdateAsync(Order order)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}

@@ -1,4 +1,5 @@
-﻿using OrderAPI.Domain.Entities;
+﻿using OrderAPI.Application.DTOs;
+using OrderAPI.Domain.Entities;
 using OrderAPI.Domain.Enums;
 using System;
 using System.Collections.Generic;
@@ -10,9 +11,10 @@ namespace OrderAPI.Application.Interfaces
 {
     public interface IOrderService
     {
+        Task CreateOrderAsync(OrderRequestDto orderRequest);
         Task<Order> GetOrderByIdAsync(int id);
         Task<List<Order>> GetAllOrdersAsync();
-        Task AddOccurrence(EOccurrenceType type, DateTime dateTime);
+        Task AddOccurrence(int orderId, EOccurrenceType type, DateTime dateTime);
         Task DeleteOccurrence(int occurrenceId);
     }
 }

@@ -19,10 +19,10 @@ namespace OrderAPI.Domain.Entities
         public bool DeliveredInd { get; private set; }
 
 
-        public Order(int orderNumber, bool deliveredInd = false)
+        public Order(int orderNumber, DateTime orderTime, bool deliveredInd = false)
         {
             OrderNumber = orderNumber;
-            OrderTime = DateTime.UtcNow;
+            OrderTime = orderTime;
             DeliveredInd = deliveredInd;
         }
 
@@ -37,11 +37,11 @@ namespace OrderAPI.Domain.Entities
                 && (newOccurrenceTime - occurrenceAlreadyExists.OccurrenceTime) < TimeSpan.FromMinutes(10))
                 throw new InvalidDataException("É possivel adicionar uma ocorrencia do mesmo tipo somente depois de um periodo de 10 minutos da anterior.");
 
-            var isFinisherOccurrence = Occurrences.Count == 1;
+            var isFinisherOccurrence = Occurrences?.Count == 1;
 
             Occurrence occurrence = new Occurrence(type, newOccurrenceTime, isFinisherOccurrence);
 
-            Occurrences.Add(occurrence);
+            Occurrences?.Add(occurrence);
 
             var orderWasDelivered = type == EOccurrenceType.SuccessfullyDelivered ? true : false;
             if (isFinisherOccurrence)

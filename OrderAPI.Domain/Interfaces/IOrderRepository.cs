@@ -1,4 +1,5 @@
 ﻿using OrderAPI.Domain.Entities;
+using OrderAPI.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,8 @@ namespace OrderAPI.Domain.Interfaces
     {
         Task<Order> GetByIdAsync(int id);
         Task<Order> GetAllAsync(int id);
-        Task AddAsync(Order order);
+        Task AddOrderAsync(Order order);
+        Task AddOccurrenceAsync(Order order);
         Task UpdateAsync(Order order);
     }
 }
