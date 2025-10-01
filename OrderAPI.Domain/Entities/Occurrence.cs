@@ -9,27 +9,16 @@ namespace OrderAPI.Domain.Entities
 {
     public class Occurrence
     {
+        internal Occurrence(EOccurrenceType type, DateTime ocurrenceTime, bool isFinisher)
+        {
+            OccurrenceType = type;
+            OccurrenceTime = ocurrenceTime;
+            FinisherInd = isFinisher;
+        }
+
         public int OccurrenceId { get; private set; }
         public EOccurrenceType OccurrenceType { get; private set; }
         public DateTime OccurrenceTime { get; private set; }
         public bool FinisherInd { get; private set; }
-
-        public Occurrence(EOccurrenceType type, bool isFinisher = false )
-        {
-            OccurrenceType = type;
-            FinisherInd = isFinisher;
-            OccurrenceTime = DateTime.UtcNow;
-        }
-
-        public void IsFinisherOccurrence(bool secoundOccurence = false)
-        {
-            FinisherInd = secoundOccurence;
-        }
-
-        public bool IsDelivererOccurrence(EOccurrenceType type)
-        {
-
-            return type == EOccurrenceType.SuccessfullyDelivered ? true : false;
-        }
     }
 }
