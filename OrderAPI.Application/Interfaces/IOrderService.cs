@@ -11,10 +11,10 @@ namespace OrderAPI.Application.Interfaces
 {
     public interface IOrderService
     {
-        Task CreateOrderAsync(OrderRequestDto orderRequest);
-        Task<Order> GetOrderByIdAsync(int id);
-        Task<List<Order>> GetAllOrdersAsync();
-        Task AddOccurrence(int orderId, EOccurrenceType type, DateTime dateTime);
-        Task DeleteOccurrence(int orderId, int occurrenceId);
+        Task CreateOrderAsync(CreateOrderRequestDto orderRequest);
+        Task<OrderResponseDto> GetOrderByIdAsync(int id);
+        Task<List<OrderResponseDto>> GetAllOrdersAsync();
+        Task AddOccurrenceAsync(int orderId, AddOccurrenceRequestDto request);
+        Task DeleteOccurrenceAsync(int orderId, int occurrenceId);
     }
 }

@@ -18,6 +18,10 @@ namespace OrderAPI.Domain.Entities
         public DateTime OrderTime { get; private set; }
         public bool DeliveredInd { get; private set; }
 
+        private Order()
+        {
+            
+        }
 
         public Order(int orderNumber, DateTime orderTime)
         {

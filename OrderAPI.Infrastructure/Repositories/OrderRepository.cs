@@ -1,6 +1,8 @@
-﻿using OrderAPI.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using OrderAPI.Domain.Entities;
 using OrderAPI.Domain.Enums;
 using OrderAPI.Domain.Interfaces;
+using OrderAPI.Infrastructure.Persistence;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,29 +13,50 @@ namespace OrderAPI.Infrastructure.Repositories
 {
     public class OrderRepository : IOrderRepository
     {
-        public Task AddAsync(Order order)
+        private readonly AppDbContext _appContext;
+        public OrderRepository(AppDbContext context)
         {
-            throw new NotImplementedException();
+            _appContext = context;
+        }
+        public async Task<Task> AddAsync(Order order)
+        {
+            _appContext.Orders.AddAsync(order);
+            _appContext.SaveChangesAsync();
+            return Task.CompletedTask;
         }
 
-        public Task DeleteAsync(int id)
+        public async Task DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            var order = await _appContext.Orders
+                .Include(o => o.Occurrences)
+                .FirstOrDefaultAsync(o => o.OrderId == id);
+
+            if (order is null) 
+                return;
+
+            _appContext.Orders.Remove(order);
+            await _appContext.SaveChangesAsync();
         }
 
         public Task<List<Order>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return _appContext.Orders
+                    .Include(o => o.Occurrences)
+                    .ToListAsync();
         }
 
         public Task<Order> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return _appContext.Orders
+                .Include(o => o.Occurrences)
+                .FirstOrDefaultAsync(o => o.OrderId == id);    
         }
 
-        public Task UpdateAsync(Order order)
+        public async Task<Task> UpdateAsync(Order order)
         {
-            throw new NotImplementedException();
+            _appContext.Orders.Update(order);
+            await _appContext.SaveChangesAsync();
+            return Task.CompletedTask ;
         }
     }
 }

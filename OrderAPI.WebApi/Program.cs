@@ -1,5 +1,5 @@
-using OrderAPI.Application.Interfaces;
-using OrderAPI.Application.Services;
+using OrderAPI.Application.DependencyInjection;
+using OrderAPI.Infrastructure.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +10,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddRepositoryDependencyInjection();
+builder.Services.AddServiceDependencyInjection();
 
 var app = builder.Build();
 

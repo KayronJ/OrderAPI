@@ -9,6 +9,10 @@ namespace OrderAPI.Domain.Entities
 {
     public class Occurrence
     {
+        private Occurrence()
+        {
+            
+        }
         internal Occurrence(EOccurrenceType type, DateTime ocurrenceTime, bool isFinisher)
         {
             OccurrenceType = type;
