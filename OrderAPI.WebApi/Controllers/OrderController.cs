@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using OrderAPI.Application.DTOs;
+using OrderAPI.Application.DTOs.Requests;
 using OrderAPI.Application.Interfaces;
 
 namespace OrderAPI.WebApi.Controllers

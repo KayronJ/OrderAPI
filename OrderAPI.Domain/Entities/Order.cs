@@ -19,11 +19,11 @@ namespace OrderAPI.Domain.Entities
         public bool DeliveredInd { get; private set; }
 
 
-        public Order(int orderNumber, DateTime orderTime, bool deliveredInd = false)
+        public Order(int orderNumber, DateTime orderTime)
         {
             OrderNumber = orderNumber;
             OrderTime = orderTime;
-            DeliveredInd = deliveredInd;
+            DeliveredInd = false;
         }
 
         public void AddNewOccurrence(EOccurrenceType type, DateTime newOccurrenceTime)
@@ -31,22 +31,16 @@ namespace OrderAPI.Domain.Entities
             if (DeliveredInd)
                 throw new InvalidDataException("Não é possivel adicionar Ocorrencias à Pedidos finalizados.");
 
-            var occurrenceAlreadyExists = Occurrences?.LastOrDefault(o => o.OccurrenceType == type);
+            ValidateDuplicateOccurrence(type, newOccurrenceTime);
 
-            if (occurrenceAlreadyExists != null
-                && (newOccurrenceTime - occurrenceAlreadyExists.OccurrenceTime) < TimeSpan.FromMinutes(10))
-                throw new InvalidDataException("É possivel adicionar uma ocorrencia do mesmo tipo somente depois de um periodo de 10 minutos da anterior.");
-
-            var isFinisherOccurrence = Occurrences?.Count == 1;
-
+            var isFinisherOccurrence = Occurrences.Count == 1;
+                
             Occurrence occurrence = new Occurrence(type, newOccurrenceTime, isFinisherOccurrence);
+            Occurrences.Add(occurrence);
 
-            Occurrences?.Add(occurrence);
-
-            var orderWasDelivered = type == EOccurrenceType.SuccessfullyDelivered ? true : false;
             if (isFinisherOccurrence)
             {
-                DeliveredInd = orderWasDelivered;
+                DeliveredInd = type == EOccurrenceType.SuccessfullyDelivered;
             }
         }
 
@@ -55,7 +49,26 @@ namespace OrderAPI.Domain.Entities
             if (DeliveredInd)
                 throw new InvalidDataException("Não é possivel deletar Ocorrencias à Pedidos finalizados.");
 
-            Occurrences?.RemoveAll(o => o.OccurrenceId == occurrenceId);
+            var occurrence = Occurrences.FirstOrDefault(o => o.OccurrenceId == occurrenceId);
+
+            if (occurrence == null)
+                throw new InvalidOperationException("Ocorrência não encontrada.");
+
+            Occurrences.Remove(occurrence);
+        }
+
+        private void ValidateDuplicateOccurrence(EOccurrenceType type, DateTime newOccurrenceTime)
+        {
+            var recentOccurrences = Occurrences
+              .Where(o => o.OccurrenceType == type)
+              .Where(o => (newOccurrenceTime - o.OccurrenceTime) < TimeSpan.FromMinutes(10))
+              .ToList();
+
+            if (recentOccurrences.Any())
+            {
+                throw new InvalidOperationException(
+                    "Não é possível adicionar uma ocorrência do mesmo tipo em menos de 10 minutos da anterior.");
+            }
         }
 
     }

@@ -11,12 +11,12 @@ namespace OrderAPI.Infrastructure.Repositories
 {
     public class OrderRepository : IOrderRepository
     {
-        public Task AddOccurrenceAsync(Order order)
+        public Task AddAsync(Order order)
         {
             throw new NotImplementedException();
         }
 
-        public Task AddOrderAsync(Order order)
+        public Task DeleteAsync(int id)
         {
             throw new NotImplementedException();
         }
@@ -27,11 +27,6 @@ namespace OrderAPI.Infrastructure.Repositories
         }
 
         public Task<Order> GetByIdAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task RemoveOccurenceAsync(Order order)
         {
             throw new NotImplementedException();
         }

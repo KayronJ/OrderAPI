@@ -1,4 +1,4 @@
-﻿using OrderAPI.Application.DTOs;
+﻿using OrderAPI.Application.DTOs.Requests;
 using OrderAPI.Application.Interfaces;
 using OrderAPI.Domain.Entities;
 using OrderAPI.Domain.Enums;
