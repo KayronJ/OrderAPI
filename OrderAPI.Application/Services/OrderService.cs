@@ -14,40 +14,29 @@ namespace OrderAPI.Application.Services
     public class OrderService : IOrderService
     {
         private readonly IOrderRepository _order;
-
         public OrderService(IOrderRepository orderRepository)
         {
             _order = orderRepository;
         }
-        
+
+        public async Task<List<Order>> GetAllOrdersAsync() => await _order.GetAllAsync();
+        public async Task<Order> GetOrderByIdAsync(int orderId) => await _order.GetByIdAsync(orderId);
         public async Task AddOccurrence(int orderId, EOccurrenceType type, DateTime dateTime)
         {
             var order = await _order.GetByIdAsync(orderId);
             order.AddNewOccurrence(type, dateTime);
-
             await _order.AddOccurrenceAsync(order);
         }
-
         public async Task CreateOrderAsync(OrderRequestDto orderRequest)
         {
             var order = new Order(orderRequest.OrderNumber, orderRequest.OrderTime);
             await _order.AddOrderAsync(order);
         }
-
-        public Task DeleteOccurrence(int occurrenceId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<Order>> GetAllOrdersAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<Order> GetOrderByIdAsync(int orderId)
+        public async Task DeleteOccurrence(int orderId, int occurrenceId)
         {
             var order = await _order.GetByIdAsync(orderId);
-            return order;
+            order.DeleteOccurrence(occurrenceId);
+            await _order.RemoveOccurenceAsync(order);
         }
     }
 }

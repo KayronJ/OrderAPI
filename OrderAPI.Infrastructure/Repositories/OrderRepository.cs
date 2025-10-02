@@ -21,12 +21,17 @@ namespace OrderAPI.Infrastructure.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<Order> GetAllAsync(int id)
+        public Task<List<Order>> GetAllAsync()
         {
             throw new NotImplementedException();
         }
 
         public Task<Order> GetByIdAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task RemoveOccurenceAsync(Order order)
         {
             throw new NotImplementedException();
         }

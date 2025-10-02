@@ -11,9 +11,10 @@ namespace OrderAPI.Domain.Interfaces
     public interface IOrderRepository
     {
         Task<Order> GetByIdAsync(int id);
-        Task<Order> GetAllAsync(int id);
+        Task<List<Order>> GetAllAsync();
         Task AddOrderAsync(Order order);
         Task AddOccurrenceAsync(Order order);
+        Task RemoveOccurenceAsync(Order order);
         Task UpdateAsync(Order order);
     }
 }

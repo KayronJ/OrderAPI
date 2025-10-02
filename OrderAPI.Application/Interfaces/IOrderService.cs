@@ -15,6 +15,6 @@ namespace OrderAPI.Application.Interfaces
         Task<Order> GetOrderByIdAsync(int id);
         Task<List<Order>> GetAllOrdersAsync();
         Task AddOccurrence(int orderId, EOccurrenceType type, DateTime dateTime);
-        Task DeleteOccurrence(int occurrenceId);
+        Task DeleteOccurrence(int orderId, int occurrenceId);
     }
 }
