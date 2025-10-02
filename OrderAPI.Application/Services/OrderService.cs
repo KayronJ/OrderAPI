@@ -13,30 +13,106 @@ namespace OrderAPI.Application.Services
 {
     public class OrderService : IOrderService
     {
-        private readonly IOrderRepository _order;
+        private readonly IOrderRepository _orderRepository;
+
         public OrderService(IOrderRepository orderRepository)
         {
-            _order = orderRepository;
+            _orderRepository = orderRepository;
         }
 
-        public async Task<List<Order>> GetAllOrdersAsync() => await _order.GetAllAsync();
-        public async Task<Order> GetOrderByIdAsync(int orderId) => await _order.GetByIdAsync(orderId);
-        public async Task AddOccurrence(int orderId, EOccurrenceType type, DateTime dateTime)
+        public async Task<List<OrderResponseDto>> GetAllOrdersAsync()
         {
-            var order = await _order.GetByIdAsync(orderId);
-            order.AddNewOccurrence(type, dateTime);
-            await _order.AddOccurrenceAsync(order);
+            var orders = await _orderRepository.GetAllAsync();
+
+            var returnData = orders.Select(order => new OrderResponseDto
+            {
+                OrderId = order.OrderId,
+                OrderNumber = order.OrderNumber,
+                OrderTime = order.OrderTime,
+                DeliveredInd = order.DeliveredInd,
+                Occurrences = order.Occurrences.Select(o => new OccurrenceResponseDto
+                {
+                    OccurrenceId = o.OccurrenceId,
+                    OccurrenceType = o.OccurrenceType,
+                    OccurrenceTime = o.OccurrenceTime,
+                    FinisherInd = o.FinisherInd
+                }).ToList()
+            }).ToList();
+
+            return returnData;
         }
-        public async Task CreateOrderAsync(OrderRequestDto orderRequest)
+
+        public async Task<OrderResponseDto> GetOrderByIdAsync(int orderId)
+        {
+            var order = await _orderRepository.GetByIdAsync(orderId);
+
+            if (order == null)
+                throw new KeyNotFoundException($"Pedido com ID {orderId} não encontrado");
+
+            var returnData = new OrderResponseDto
+            {
+                OrderId = order.OrderId,
+                OrderNumber = order.OrderNumber,
+                OrderTime = order.OrderTime,
+                DeliveredInd = order.DeliveredInd,
+                Occurrences = order.Occurrences.Select(o => new OccurrenceResponseDto
+                {
+                    OccurrenceId = o.OccurrenceId,
+                    OccurrenceType = o.OccurrenceType,
+                    OccurrenceTime = o.OccurrenceTime,
+                    FinisherInd = o.FinisherInd
+                }).ToList()
+            };
+
+            return returnData;
+        }
+
+        public async Task CreateOrderAsync(CreateOrderRequestDto orderRequest)
         {
             var order = new Order(orderRequest.OrderNumber, orderRequest.OrderTime);
-            await _order.AddOrderAsync(order);
+            await _orderRepository.AddAsync(order);
         }
-        public async Task DeleteOccurrence(int orderId, int occurrenceId)
+
+        public async Task AddOccurrenceAsync(int orderId, AddOccurrenceRequestDto request)
         {
-            var order = await _order.GetByIdAsync(orderId);
+            var order = await _orderRepository.GetByIdAsync(orderId);
+
+            if (order == null)
+                throw new KeyNotFoundException($"Pedido com ID {orderId} não encontrado");
+
+            order.AddNewOccurrence(request.OccurrenceType, request.OccurrenceTime);
+
+            await _orderRepository.UpdateAsync(order);
+        }
+
+        public async Task DeleteOccurrenceAsync(int orderId, int occurrenceId)
+        {
+            var order = await _orderRepository.GetByIdAsync(orderId);
+
+            if (order == null)
+                throw new KeyNotFoundException($"Pedido com ID {orderId} não encontrado");
+
             order.DeleteOccurrence(occurrenceId);
-            await _order.RemoveOccurenceAsync(order);
+
+            await _orderRepository.UpdateAsync(order);
+        }
+
+        private OrderResponseDto MapToResponseDto(Order order)
+        {
+            return new OrderResponseDto
+            {
+                OrderId = order.OrderId,
+                OrderNumber = order.OrderNumber,
+                OrderTime = order.OrderTime,
+                DeliveredInd = order.DeliveredInd,
+                Occurrences = order.Occurrences.Select(o => new OccurrenceResponseDto
+                {
+                    OccurrenceId = o.OccurrenceId,
+                    OccurrenceType = o.OccurrenceType,
+                    OccurrenceTime = o.OccurrenceTime,
+                    FinisherInd = o.FinisherInd
+                }).ToList()
+            };
         }
     }
 }
