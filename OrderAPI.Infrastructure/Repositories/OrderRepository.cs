@@ -20,8 +20,8 @@ namespace OrderAPI.Infrastructure.Repositories
         }
         public async Task<Task> AddAsync(Order order)
         {
-            _appContext.Orders.AddAsync(order);
-            _appContext.SaveChangesAsync();
+            await _appContext.Orders.AddAsync(order);
+            await _appContext.SaveChangesAsync();
             return Task.CompletedTask;
         }
 
