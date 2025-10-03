@@ -18,11 +18,10 @@ namespace OrderAPI.Infrastructure.Repositories
         {
             _appContext = context;
         }
-        public async Task<Task> AddAsync(Order order)
+        public async Task AddAsync(Order order)
         {
             await _appContext.Orders.AddAsync(order);
             await _appContext.SaveChangesAsync();
-            return Task.CompletedTask;
         }
 
         public async Task DeleteAsync(int id)
@@ -52,11 +51,10 @@ namespace OrderAPI.Infrastructure.Repositories
                 .FirstOrDefaultAsync(o => o.OrderId == id);    
         }
 
-        public async Task<Task> UpdateAsync(Order order)
+        public async Task UpdateAsync(Order order)
         {
             _appContext.Orders.Update(order);
             await _appContext.SaveChangesAsync();
-            return Task.CompletedTask ;
         }
     }
 }
