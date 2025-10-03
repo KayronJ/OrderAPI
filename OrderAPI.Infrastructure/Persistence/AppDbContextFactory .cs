@@ -9,7 +9,6 @@ namespace OrderAPI.Infrastructure.Persistence
         {
             var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
 
-            // IMPORTANTE: Use a MESMA connection string do seu appsettings.json
             optionsBuilder.UseSqlServer(
                 "Server=(localdb)\\mssqllocaldb;Database=OrderApiDb;Trusted_Connection=true;TrustServerCertificate=true"
             );
