@@ -45,7 +45,7 @@ namespace OrderAPI.Application.Services
 
         public async Task<LoginResponseDto> RegisterAsync(RegisterRequestDto request)
         {
-            if (!(await _userRepository.ExistsByUsernameAsync(request.Username)))
+            if ( await _userRepository.ExistsByUsernameAsync(request.Username))
                 throw new InvalidOperationException("Username já existe");
 
             var user = new User
@@ -78,7 +78,7 @@ namespace OrderAPI.Application.Services
 
             var claims = new[]
             {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
                 new Claim(ClaimTypes.Name, user.Username),
                 new Claim(ClaimTypes.Role, user.Role),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())

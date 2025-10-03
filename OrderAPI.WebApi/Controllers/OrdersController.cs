@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OrderAPI.Application.DTOs.Requests;
 using OrderAPI.Application.DTOs.Responses;
 using OrderAPI.Application.Interfaces;
@@ -7,6 +8,7 @@ namespace OrderAPI.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class OrdersController : ControllerBase
     {
 

@@ -37,16 +37,16 @@ namespace OrderAPI.Infrastructure.Repositories
             await _appContext.SaveChangesAsync();
         }
 
-        public Task<List<Order>> GetAllAsync()
+        public async Task<List<Order>> GetAllAsync()
         {
-            return _appContext.Orders
+            return await _appContext.Orders
                     .Include(o => o.Occurrences)
                     .ToListAsync();
         }
 
-        public Task<Order> GetByIdAsync(int id)
+        public async Task<Order?> GetByIdAsync(int id)
         {
-            return _appContext.Orders
+            return await _appContext.Orders
                 .Include(o => o.Occurrences)
                 .FirstOrDefaultAsync(o => o.OrderId == id);    
         }

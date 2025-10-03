@@ -96,23 +96,5 @@ namespace OrderAPI.Application.Services
 
             await _orderRepository.UpdateAsync(order);
         }
-
-        private OrderResponseDto MapToResponseDto(Order order)
-        {
-            return new OrderResponseDto
-            {
-                OrderId = order.OrderId,
-                OrderNumber = order.OrderNumber,
-                OrderTime = order.OrderTime,
-                DeliveredInd = order.DeliveredInd,
-                Occurrences = order.Occurrences.Select(o => new OccurrenceResponseDto
-                {
-                    OccurrenceId = o.OccurrenceId,
-                    OccurrenceType = o.OccurrenceType,
-                    OccurrenceTime = o.OccurrenceTime,
-                    FinisherInd = o.FinisherInd
-                }).ToList()
-            };
-        }
     }
 }
