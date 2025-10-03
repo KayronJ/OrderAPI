@@ -10,14 +10,14 @@ Swagger. Utilizando Aggregates Roots e Rich Domains.
 
 ## Descrição do Projeto
 
-A aplicação permite:\
-- Cadastro de **Pedidos**.\
-- Registro de **Ocorrências** vinculadas a pedidos.\
+A aplicação permite:
+- Cadastro de **Pedidos**.
+- Registro de **Ocorrências** vinculadas a pedidos.
 - Regras de negócio que controlam o fluxo das ocorrências e o status do
-pedido.\
-- Autenticação e autorização via **JWT Token**.\
-- Logs com **Serilog**.\
-- Testes unitários cobrindo casos críticos.\
+pedido.
+- Autenticação e autorização via **JWT Token**.
+- Logs com **Serilog**.
+- Testes unitários cobrindo casos críticos.
 - Documentação automática com **Swagger/OpenAPI**.
 
 ------------------------------------------------------------------------
@@ -25,14 +25,14 @@ pedido.\
 ## Tecnologias Utilizadas
 
 -   [.NET 8](https://dotnet.microsoft.com/en-us/download)\
--   **ASP.NET Core Web API**\
--   **Entity Framework Core**\
--   **Repository Pattern**\
--   **Domínio Rico (DDD Light)**\
--   **Injeção de Dependência (DI)**\
--   **Serilog** (para logs)\
--   **Swagger / Swashbuckle** (para documentação)\
--   **xUnit** (para testes unitários)\
+-   **ASP.NET Core Web API**
+-   **Entity Framework Core**
+-   **Repository Pattern**
+-   **Domínio Rico (DDD Light)**
+-   **Injeção de Dependência (DI)**
+-   **Serilog** (para logs)
+-   **Swagger / Swashbuckle** (para documentação)
+-   **xUnit** (para testes unitários)
 -   **DataAnnotations** (para validações)
 -   **SQLServer** (local para persistencias)
 
@@ -70,13 +70,13 @@ pedido.\
 ## 📌 Regras de Negócio Implementadas
 
 -   Não é possível cadastrar 2 ocorrências do mesmo tipo em um intervalo
-    de **10 minutos**.\
+    de **10 minutos**.
 -   A **segunda ocorrência** para um pedido deve ser marcada como
-    **finalizadora** (`IndFinalizadora = true`).\
+    **finalizadora** (`IndFinalizadora = true`).
 -   Se a ocorrência finalizadora for `EntregueComSucesso`, o pedido é
-    marcado como **entregue** (`IndEntregue = true`).\
+    marcado como **entregue** (`IndEntregue = true`).
 -   Se for qualquer outro tipo, o pedido é marcado como **não entregue**
-    (`IndEntregue = false`).\
+    (`IndEntregue = false`).
 -   Não é permitido cadastrar ou excluir ocorrências em pedidos já
     concluídos.
 
@@ -84,20 +84,20 @@ pedido.\
 
 ## 📑 Entidades
 
-**Pedido** - `IdPedido` (int)\
-- `NumeroPedido` (int)\
-- `HoraPedido` (DateTime)\
-- `IndEntregue` (bool)\
+**Pedido** - `IdPedido` (int)
+- `NumeroPedido` (int)
+- `HoraPedido` (DateTime)
+- `IndEntregue` (bool)
 - `Ocorrencias` (List`<Ocorrencia>`{=html})
 
-**Ocorrência** - `IdOcorrencia` (int)\
-- `TipoOcorrencia` (ETipoOcorrencia)\
-- `HoraOcorrencia` (DateTime)\
+**Ocorrência** - `IdOcorrencia` (int)
+- `TipoOcorrencia` (ETipoOcorrencia)
+- `HoraOcorrencia` (DateTime)
 - `IndFinalizadora` (bool)
 
-**Enum ETipoOcorrencia** - `EmRotaDeEntrega`\
-- `EntregueComSucesso`\
-- `ClienteAusente`\
+**Enum ETipoOcorrencia** - `EmRotaDeEntrega`
+- `EntregueComSucesso`
+- `ClienteAusente`
 - `AvariaNoProduto`
 
 ------------------------------------------------------------------------
@@ -106,7 +106,7 @@ pedido.\
 
 ### Pré-requisitos
 
--   [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)\
+-   [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
 -   [SQL
     Server](https://www.microsoft.com/pt-br/sql-server/sql-server-downloads)
     ou outro banco configurado
@@ -116,11 +116,11 @@ pedido.\
 1.  Clone o repositório:
 
     ``` bash
-    git clone 
-    cd 
+    git clone https://github.com/KayronJ/OrderAPI.git
+    cd OrderAPI
     ```
 
-2.  Configure a **connection string** no `appsettings.json`.\
+2.  Configure a **connection string** no `appsettings.json`.
 
 3.  Rode as migrations do Entity Framework:
 
@@ -132,20 +132,22 @@ pedido.\
 4.  Execute a API:
 
     ``` bash
-    dotnet run --project src/WebApi
+    dotnet run --project OrderAPI.WebApi
     ```
 
 5.  Acesse o Swagger:
 
-        http://localhost:5000/swagger
+        https://localhost:7172/swagger
 
 ------------------------------------------------------------------------
 
 ## 🔑 Autenticação
 
--   A autenticação é baseada em **JWT (Bearer Token)**.\
+-   A autenticação é baseada em **JWT (Bearer Token)**.
 
--   Após login via `/api/auth/login`, copie o token retornado.\
+-   É necessário fazer o registro do usuário via `/api/auth/register`
+
+-   Após login via `/api/auth/login`, copie o token retornado.
 
 -   No Swagger, clique em **Authorize** e insira:
 
@@ -155,7 +157,7 @@ pedido.\
 
 ## Testes
 
-Os testes foram escritos utilizando **xUnit**.\
+Os testes foram escritos utilizando **xUnit**.
 Para rodar:
 
 ``` bash
@@ -166,7 +168,7 @@ dotnet test
 
 ## 📊 Logs
 
--   Implementados com **Serilog**.\
+-   Implementados com **Serilog**.
 -   Logs gravados em console e no banco na tabela `Logs`.
 
 ------------------------------------------------------------------------
