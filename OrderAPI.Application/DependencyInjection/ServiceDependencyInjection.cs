@@ -9,6 +9,7 @@ namespace OrderAPI.Application.DependencyInjection
         public static void AddServiceDependencyInjection(this IServiceCollection services)
         {
             services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IAuthService, AuthService>();
         }
     }
 }

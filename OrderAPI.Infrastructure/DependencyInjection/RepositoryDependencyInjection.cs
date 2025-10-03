@@ -9,6 +9,7 @@ namespace OrderAPI.Infrastructure.DependencyInjection
         public static void AddRepositoryDependencyInjection(this IServiceCollection services)
         {
             services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
         }
     }
 }
