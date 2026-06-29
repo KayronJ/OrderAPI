@@ -1,7 +1,7 @@
 # Order API
 
-API RESTful desenvolvida em **ASP.NET Core (.NET 8)** como parte do
-processo seletivo para a vaga de **Analista de Sistemas .NET Core**.\
+API RESTful desenvolvida em **ASP.NET Core (.NET 8)**.
+
 A aplicação gerencia **Pedidos** e suas **Ocorrências**, implementando
 regras de negócio específicas, autenticação, testes e documentação com
 Swagger. Utilizando Aggregates Roots e Rich Domains.
@@ -194,6 +194,6 @@ dotnet test
 
 ## Autor
 
-**SKayron Bragança**\
-📧 kayron.juan123@email.com\
+**Kayron Bragança**\
+📧 kayron.juan123@gmail.com\
 🔗 [LinkedIn](https://linkedin.com/in/kayron-braganca)
